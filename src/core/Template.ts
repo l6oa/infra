@@ -43,8 +43,8 @@ export class Template {
 
     this.defaultConfig = {
       ...templateDefaultConfig,
-      tfstatesBucketRegion: process.env.EXECUTION_TFSTATES_BUCKET_REGION,
-      tfstatesBucketName: process.env.EXECUTION_TFSTATES_BUCKET_NAME,
+      tfstatesBucketRegion: process.env.INFRA_TFSTATES_BUCKET_REGION,
+      tfstatesBucketName: process.env.INFRA_TFSTATES_BUCKET_NAME,
     };
   }
 
