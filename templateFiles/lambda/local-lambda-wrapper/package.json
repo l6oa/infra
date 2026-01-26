@@ -1,0 +1,10 @@
+{
+  "name": "local-lambda-wrapper",
+  "license": "UNLICENSED",
+  "packageManager": "yarn@4.3.1",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "aws-lambda-ric": "./lib/aws-lambda-ric.tar.gz"
+  }
+}

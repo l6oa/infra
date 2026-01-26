@@ -1,0 +1,38 @@
+resource "aws_s3_bucket" "main" {
+  bucket = "${var.name}-${var.environment}"
+}
+
+resource "aws_s3_bucket_cors_configuration" "main" {
+  bucket = aws_s3_bucket.main.id
+
+  cors_rule {
+    allowed_headers = ["*"]
+    allowed_methods = ["DELETE", "GET", "HEAD", "POST", "PUT"]
+    <% if (local) { %>
+    allowed_origins = [
+      "null",
+      "https://app.localstack.cloud",
+      "http://app.localstack.cloud"
+    ]
+    <% } else { %>
+    allowed_origins = ["null"]
+    <% } %>
+    expose_headers  = ["Last-Updated"]
+    max_age_seconds = 3000
+  }
+}
+
+<% if (autoCleanup) { %>
+resource "aws_s3_bucket_lifecycle_configuration" "main" {
+  bucket = aws_s3_bucket.main.id
+
+  rule {
+    id     = "cleanup"
+    status = "Enabled"
+
+    expiration {
+      days = 1
+    }
+  }
+}
+<% } %>

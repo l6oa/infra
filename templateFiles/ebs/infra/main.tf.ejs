@@ -1,0 +1,14 @@
+terraform {
+  backend "s3" {
+    bucket = "<%= tfstatesBucketName %>"
+    key    = "<%= project %>/<%= environment %>/ebs.<%= name %>.tfstate"
+    region = "<%= tfstatesBucketRegion %>"
+  }
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.0"
+    }
+  }
+}

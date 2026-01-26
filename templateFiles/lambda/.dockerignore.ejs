@@ -1,0 +1,14 @@
+*
+!.yarn
+!dist
+!lib
+!package.json
+!yarn.lock
+
+<% include.forEach((filename) => { %>
+!<%= filename %>
+<% }) %>
+
+<% if (local) { %>
+!local-lambda-wrapper
+<% } %>

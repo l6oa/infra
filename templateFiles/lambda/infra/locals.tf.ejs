@@ -1,0 +1,10 @@
+locals {
+  ecr_url               = "${data.aws_caller_identity.main.account_id}.dkr.ecr.${data.aws_region.current.name}.amazonaws.com"
+  sqs_base_arn          = "arn:aws:sqs:${data.aws_region.current.name}:${data.aws_caller_identity.main.account_id}:"
+  sqs_destination_names = toset([for destination in var.destinations : destination.name if destination.type == "sqs"])
+  version_tag           = jsondecode(file("../package.json")).version
+  build_tag             = "<%- local
+    ? '${local.version_tag}'
+    : '${local.version_tag}-${random_id.docker_image.hex}'
+  %>"
+}

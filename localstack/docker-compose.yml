@@ -1,0 +1,35 @@
+# https://docs.localstack.cloud/getting-started/installation/#starting-localstack-with-docker-compose
+# https://docs.localstack.cloud/references/network-troubleshooting/endpoint-url/#from-your-container
+# https://docs.localstack.cloud/user-guide/tools/dns-server/#fallback-dns-server
+# https://medium.com/@prajwal.chin/understanding-docker-dns-2ed4b070a0#:~:text=server%20IP%20address-,127.0.0.11,-.%20This%20DNS%20server
+
+services:
+  localstack:
+    container_name: localstack
+    image: localstack/localstack-pro@sha256:5adefd70ee82dac388837dc8e5f65466d101911fd3f829c12ec6883792c9aa51
+    ports:
+      - "127.0.0.1:4566:4566"
+      - "127.0.0.1:4510-4559:4510-4559"
+      - "127.0.0.1:443:443"
+    environment:
+      - DNS_SERVER=127.0.0.11
+      - LAMBDA_DOCKER_FLAGS=--volume /home:/home
+      - LAMBDA_KEEPALIVE_MS=0
+      - LAMBDA_LIMITS_CONCURRENT_EXECUTIONS=3
+      - LAMBDA_RUNTIME_ENVIRONMENT_TIMEOUT=60
+      - LOCALSTACK_AUTH_TOKEN=${LOCALSTACK_AUTH_TOKEN:?}
+      - PERSISTENCE=1
+      - SNAPSHOT_SAVE_STRATEGY=ON_REQUEST
+    volumes:
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      default:
+        ipv4_address: 10.0.2.20
+
+networks:
+  default:
+    name: localstack
+    ipam:
+      config:
+        - subnet: 10.0.2.0/24

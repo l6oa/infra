@@ -1,0 +1,36 @@
+FROM node:<%= nodeVersion %>-<%= imageVariant !== 'full' ? `-${imageVariant}` : '' %>
+WORKDIR /function
+
+<% if (imagePackages.length > 0) { %>
+RUN apt-get update && \
+    apt-get install -y <%= imagePackages.join(' ') %>
+<% } %>
+
+<% if (imageFeatures.includes('GraphicsMagick')) { %>
+RUN apt-get update && \
+    apt-get install -y graphicsmagick
+<% } %>
+
+<% if (imageFeatures.includes('Java')) { %>
+RUN apt-get update && \
+    apt-get install -y default-jre
+<% } %>
+
+ENV COREPACK_HOME=/corepack
+RUN corepack enable && \
+    corepack install -g --cache-only <%= yarnRelease %>
+
+COPY local-lambda-wrapper /function
+
+RUN npm pkg set packageManager=<%= yarnRelease %> && \
+    yarn config set enableGlobalCache false && \
+    yarn config set nodeLinker node-modules && \
+    yarn config set npmAuthToken <%= npmAuthToken %> && \
+    yarn && \
+    yarn add ./lib/aws-lambda-ric.tar.gz
+
+<% include.forEach((filename) => { %>
+COPY <%= filename %> <%= filename %>
+<% }) %>
+
+CMD ["node", "start.js"]

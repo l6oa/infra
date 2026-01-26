@@ -1,0 +1,38 @@
+terraform {
+  <% if (!local) { %>
+  backend "s3" {
+    bucket = "<%= tfstatesBucketName %>"
+    key    = "<%= project %>/<%= environment %>/lambda.<%= name %>.tfstate"
+    region = "<%= tfstatesBucketRegion %>"
+  }
+  <% } %>
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.0"
+    }
+
+    <% if (!local) { %>
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "3.0.2"
+    }
+
+    random = {
+      source  = "hashicorp/random"
+      version = "3.4.3"
+    }
+    <% } %>
+  }
+}
+
+<% if (!local) { %>
+provider "docker" {
+  registry_auth {
+    address  = local.ecr_url
+    username = <%- local ? '"local"' : 'data.aws_ecr_authorization_token.main.user_name' %>
+    password = <%- local ? '"local"' : 'data.aws_ecr_authorization_token.main.password' %>
+  }
+}
+<% } %>

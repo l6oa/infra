@@ -1,0 +1,49 @@
+{
+  "name": "@l6oa/infra",
+  "version": "1.6.0",
+  "license": "UNLICENSED",
+  "packageManager": "yarn@4.3.1",
+  "type": "module",
+  "bin": "dist/cli.js",
+  "preferUnplugged": true,
+  "files": [
+    "dist",
+    "templateFiles"
+  ],
+  "scripts": {
+    "start": "node dist/cli.js",
+    "lint": "eslint --fix",
+    "tscheck": "tsc --noEmit --skipLibCheck",
+    "build": "tsup src/cli.ts --format esm --minify --clean",
+    "build:watch": "yarn build --watch",
+    "postversion": "git push && git push --tags"
+  },
+  "dependencies": {
+    "@dotenvx/dotenvx": "^1.17.0",
+    "axios": "^1.7.7",
+    "bottleneck": "^2.19.5",
+    "commander": "^12.1.0",
+    "ejs": "^3.1.10",
+    "fs-extra": "^11.2.0",
+    "glob": "^11.0.0",
+    "ink": "^5.0.1",
+    "lodash-es": "^4.17.21",
+    "react": "^18.3.1",
+    "rimraf": "^6.0.1",
+    "tmp-promise": "^3.0.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "@stylistic/eslint-plugin": "^5.7.1",
+    "@types/ejs": "^3",
+    "@types/fs-extra": "^11",
+    "@types/lodash-es": "^4",
+    "@types/node": "^22.7.5",
+    "@types/react": "^18",
+    "eslint": "^9.39.2",
+    "eslint-plugin-perfectionist": "^5.4.0",
+    "tsup": "^8.4.0",
+    "typescript": "5.5.4",
+    "typescript-eslint": "^8.53.1"
+  }
+}

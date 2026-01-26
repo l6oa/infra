@@ -1,0 +1,32 @@
+terraform {
+  backend "s3" {
+    bucket = "<%= tfstatesBucketName %>"
+    key    = "<%= project %>/<%= environment %>/ecs.<%= name %>.tfstate"
+    region = "<%= tfstatesBucketRegion %>"
+  }
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.0"
+    }
+
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "3.0.2"
+    }
+
+    random = {
+      source  = "hashicorp/random"
+      version = "3.4.3"
+    }
+  }
+}
+
+provider "docker" {
+  registry_auth {
+    address  = local.ecr_url
+    username = data.aws_ecr_authorization_token.main.user_name
+    password = data.aws_ecr_authorization_token.main.password
+  }
+}
