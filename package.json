@@ -13,7 +13,7 @@
     "start": "node dist/cli.js",
     "lint": "eslint --fix",
     "tscheck": "tsc --noEmit --skipLibCheck",
-    "build": "tsup src/cli.ts --format esm --minify --clean",
+    "build": "tsup",
     "postversion": "git push && git push --tags"
   },
   "dependencies": {
