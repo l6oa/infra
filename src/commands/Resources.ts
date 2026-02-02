@@ -54,14 +54,14 @@ export class Resources {
   static async listFolderResources(sourceFolder: string, environment: string) {
     const resources: any[] = [];
 
-    const globalConfigPath = path.join(sourceFolder, 'execution.config.js');
+    const globalConfigPath = path.join(sourceFolder, 'infra.config.js');
     const globalConfigExists = await fs.pathExists(globalConfigPath);
     if (globalConfigExists) {
       const globalConfig = (await import(globalConfigPath)).default;
       resources.push(...castArray(globalConfig));
     }
 
-    const envConfigPath = path.join(sourceFolder, `execution.${environment}.config.js`);
+    const envConfigPath = path.join(sourceFolder, `infra.${environment}.config.js`);
     const envConfigExists = await fs.pathExists(envConfigPath);
     if (envConfigExists) {
       const envConfig = (await import(envConfigPath)).default;

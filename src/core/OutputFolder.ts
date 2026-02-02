@@ -14,7 +14,7 @@ export class OutputFolder {
   }
 
   static async createPersistent(qualifiedName: string) {
-    const outputPath = path.join(homedir(), '.execution', qualifiedName);
+    const outputPath = path.join(homedir(), '.infra', qualifiedName);
     await mkdirs(outputPath);
     await rimraf(path.join(outputPath, '**/*'), {
       filter: (filePath) => (
