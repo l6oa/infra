@@ -8,3 +8,4 @@
 
 dist
 localstack/volume
+node_modules
