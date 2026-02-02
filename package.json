@@ -14,12 +14,9 @@
     "lint": "eslint --fix",
     "tscheck": "tsc --noEmit --skipLibCheck",
     "build": "tsup src/cli.ts --format esm --minify --clean",
-    "build:watch": "yarn build --watch",
     "postversion": "git push && git push --tags"
   },
   "dependencies": {
-    "@dotenvx/dotenvx": "^1.17.0",
-    "axios": "^1.7.7",
     "bottleneck": "^2.19.5",
     "commander": "^12.1.0",
     "ejs": "^3.1.10",
