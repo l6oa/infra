@@ -6,6 +6,11 @@ export default {
   skip() {
     return this.config.local;
   },
+  getDefaultConfig() {
+    return {
+      parameters: {},
+    };
+  },
   async getTerraformVariables() {
     const variableNames = [
       'project',

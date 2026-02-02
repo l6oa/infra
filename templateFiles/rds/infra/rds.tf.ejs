@@ -1,3 +1,15 @@
+resource "aws_db_parameter_group" "main" {
+  family = "mysql8.0"
+
+  <% Object.entries(parameters).forEach(([key, value]) => { -%>
+    parameter {
+      name  = "<%= key %>"
+      value = "<%= value %>"
+      apply_method = "pending-reboot"
+    }
+  <% }); -%>
+}
+
 resource "aws_db_instance" "main" {
   identifier              = "${var.name}-${var.environment}"
   allocated_storage       = var.storage
@@ -16,6 +28,7 @@ resource "aws_db_instance" "main" {
   backup_retention_period = 2
   backup_window           = "01:00-01:30"
   maintenance_window      = "Sun:05:00-Sun:05:30"
+  parameter_group_name    = aws_db_parameter_group.main.name
 }
 
 resource "aws_db_subnet_group" "main" {
