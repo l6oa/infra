@@ -8,7 +8,7 @@ import { DeployCommand } from '@/commands/DeployCommand';
 import packageData from '../package.json';
 
 function getCwd() {
-  return process.env.DEPLOY_CWD ?? process.cwd();
+  return process.env.INFRA_CWD ?? process.cwd();
 }
 
 const environmentArgument = ['<environment>', 'Environment name'] as const;
