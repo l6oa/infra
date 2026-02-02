@@ -1,18 +1,13 @@
 # @l6oa/infra
 
-## Install as a global command
+infra is a command-line tool for managing cloud infrastructure based on reusable templates.
 
-Add the following lines to your `.bashrc`:
+## Add as a global command
+
+Add the following line to your `.bashrc` or equivalent:
 
 ```bash
-export NPM_AUTH_TOKEN='<NPM token>'
-alias infra='corepack yarn@4.3.1 dlx --quiet @l6oa/infra'
-```
-
-Add a file named `.yarnrc.yml` in your home folder containing the following:
-
-```yml
-npmAuthToken: ${NPM_AUTH_TOKEN:-}
+alias infra='npx @l6oa/infra'
 ```
 
 Restart your terminal and check that the command is working:
@@ -21,38 +16,30 @@ infra --version
 infra help
 ```
 
-## Use in Bitbucket pipelines
+## Use in a CD pipeline
 
-Add the same `.yarnrc.yml` file from the previous step at the root of your repository.
+Your pipeline must run on a Node.js image and define the following environment variables:
 
-Define the following environment variables:
-
-- `NPM_AUTH_TOKEN`
-- `INFRA_TFSTATES_BUCKET_NAME` Name of the bucket where to store the Terraform states
-- `INFRA_TFSTATES_BUCKET_REGION` Region of the bucket where to store the Terraform states
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
 - `AWS_SESSION_TOKEN` (optional)
+- `INFRA_TFSTATES_BUCKET_NAME` Name of the bucket where to store the Terraform states
+- `INFRA_TFSTATES_BUCKET_REGION` Region of the bucket where to store the Terraform states
 
-Add the following step to your `bitbucket-pipelines.yml`:
+Install Terraform:
 
-```yml
-  name: Deploy
-  image: node:20
-  services:
-    - docker
-  script:
-    # https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
-    - apt-get update
-    - apt-get install gnupg software-properties-common -y
-    - 'wget -O- https://apt.releases.hashicorp.com/gpg |
-       gpg --dearmor |
-       tee /usr/share/keyrings/hashicorp-archive-keyring.gpg'
-    - 'echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg]
-       https://apt.releases.hashicorp.com $(lsb_release -cs) main" |
-       tee /etc/apt/sources.list.d/hashicorp.list'
-    - apt update
-    - apt-get install terraform
-    - corepack enable
-    - corepack yarn@3.2.1 dlx -q @l6oa/infra deploy <environment>
+```bash
+TF_VERSION=1.9.8
+ARCH=linux_amd64
+
+wget https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_${ARCH}.zip
+unzip terraform_${TF_VERSION}_${ARCH}.zip
+mv terraform /usr/local/bin/
+chmod +x /usr/local/bin/terraform
+```
+
+Run:
+
+```bash
+npx @l6oa/infra <args>
 ```
