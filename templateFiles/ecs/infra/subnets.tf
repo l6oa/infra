@@ -1,21 +1,14 @@
-data "aws_vpc" "main" {
-  filter {
-    name   = "tag:Name"
-    values = [var.vpc]
-  }
-}
-
 data "aws_internet_gateway" "main" {
   filter {
     name   = "attachment.vpc-id"
-    values = [data.aws_vpc.main.id]
+    values = [var.vpc_id]
   }
 }
 
 resource "aws_subnet" "main" {
   for_each = toset(local.availability_zones)
 
-  vpc_id            = data.aws_vpc.main.id
+  vpc_id            = var.vpc_id
   cidr_block        = cidrsubnet(local.block_cidr, 4, index(local.availability_zones, each.value))
   availability_zone = each.value
 
@@ -25,7 +18,7 @@ resource "aws_subnet" "main" {
 }
 
 resource "aws_route_table" "main" {
-  vpc_id = data.aws_vpc.main.id
+  vpc_id = var.vpc_id
 }
 
 resource "aws_route" "main" {

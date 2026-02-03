@@ -12,7 +12,7 @@ export default {
       'project',
       'name',
       'environment',
-      'vpc',
+      'vpcId',
       'vpcBlock',
       'cpu',
       'memory',
