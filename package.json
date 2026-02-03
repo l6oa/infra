@@ -1,8 +1,13 @@
 {
   "name": "@l6oa/infra",
   "version": "1.6.0",
+  "repository": "github:l6oa/infra",
   "license": "UNLICENSED",
   "packageManager": "yarn@4.12.0",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
   "type": "module",
   "bin": "dist/cli.js",
   "files": [
@@ -13,8 +18,7 @@
     "start": "node dist/cli.js",
     "lint": "eslint --fix",
     "tscheck": "tsc --noEmit --skipLibCheck",
-    "build": "tsup",
-    "postversion": "git push && git push --tags"
+    "build": "tsup"
   },
   "dependencies": {
     "bottleneck": "^2.19.5",
