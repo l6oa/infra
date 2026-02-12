@@ -55,6 +55,13 @@ resource "aws_alb_listener" "https" {
   }
 }
 
+<% additionalCertificateArns.forEach((certificateArn, i) => { %>
+resource "aws_lb_listener_certificate" "additional_<%= i %>" {
+  listener_arn    = aws_alb_listener.https.arn
+  certificate_arn = "<%= certificateArn %>"
+}
+<% }) %>
+
 resource "aws_security_group" "alb" {
   vpc_id = var.vpc_id
 

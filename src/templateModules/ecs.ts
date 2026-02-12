@@ -7,6 +7,11 @@ export default {
   skip() {
     return this.config.local;
   },
+  async getDefaultConfig() {
+    return {
+      additionalCertificateArns: [],
+    };
+  },
   async getTerraformVariables() {
     const variableNames = [
       'project',
