@@ -6,6 +6,7 @@ export default {
   getDefaultConfig() {
     return {
       autoCleanup: false,
+      rawName: null,
     };
   },
   getTerraformVariables() {
