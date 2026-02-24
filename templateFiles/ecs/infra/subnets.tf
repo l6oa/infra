@@ -13,7 +13,7 @@ resource "aws_subnet" "main" {
   availability_zone = each.value
 
   tags = {
-    Name = "${var.name}-rds-${substr(each.value, -2, 2)}-${var.environment}"
+    Name = "${var.name}-ecs-${substr(each.value, -2, 2)}-${var.environment}"
   }
 }
 
