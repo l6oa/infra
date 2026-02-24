@@ -1,3 +1,4 @@
+import dynamodb from '@/templateModules/dynamodb';
 import ebs from '@/templateModules/ebs';
 import ecs from '@/templateModules/ecs';
 import efs from '@/templateModules/efs';
@@ -10,6 +11,7 @@ import sfnLauncher from '@/templateModules/sfn-launcher';
 import sqs from '@/templateModules/sqs';
 
 export const templateModules = {
+  dynamodb,
   ebs,
   ecs,
   efs,
