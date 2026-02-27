@@ -11,6 +11,7 @@ export default {
     return {
       additionalCertificateArns: [],
       volumes: [],
+      enableExecuteCommand: false,
     };
   },
   async getTerraformVariables() {

@@ -9,6 +9,7 @@ resource "aws_ecs_task_definition" "main" {
   cpu                      = var.cpu
   memory                   = var.memory
   execution_role_arn       = aws_iam_role.main.arn
+  task_role_arn            = aws_iam_role.main.arn
 
   container_definitions = jsonencode([
     {
@@ -74,6 +75,7 @@ resource "aws_ecs_service" "main" {
   launch_type                        = "FARGATE"
   scheduling_strategy                = "REPLICA"
   propagate_tags                     = "SERVICE"
+  enable_execute_command             = <%= enableExecuteCommand %>
 
   network_configuration {
     security_groups  = [aws_security_group.ecs_tasks.id]
