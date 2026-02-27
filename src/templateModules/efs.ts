@@ -11,7 +11,7 @@ export default {
       'project',
       'name',
       'environment',
-      'subnetId',
+      'subnetIds',
       'directoryPath',
       'userUid',
       'userGid',

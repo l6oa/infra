@@ -27,8 +27,10 @@ resource "aws_efs_access_point" "main" {
 }
 
 resource "aws_efs_mount_target" "main" {
+  for_each = toset(var.subnet_ids)
+
   file_system_id  = aws_efs_file_system.main.id
-  subnet_id       = data.aws_subnet.main.id
+  subnet_id       = each.value
   security_groups = [aws_security_group.main.id]
 }
 
