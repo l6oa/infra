@@ -6,6 +6,7 @@ resource "aws_s3_bucket" "main" {
   <% } %>
 }
 
+<% if (corsOrigins.length > 0 || local) { %>
 resource "aws_s3_bucket_cors_configuration" "main" {
   bucket = aws_s3_bucket.main.id
 
@@ -14,17 +15,20 @@ resource "aws_s3_bucket_cors_configuration" "main" {
     allowed_methods = ["DELETE", "GET", "HEAD", "POST", "PUT"]
     <% if (local) { %>
     allowed_origins = [
-      "null",
+      <%- corsOrigins.map(origin => `"${origin},"`).join(" ") %>
       "https://app.localstack.cloud",
       "http://app.localstack.cloud"
     ]
     <% } else { %>
-    allowed_origins = ["null"]
+    allowed_origins = [
+      <%- corsOrigins.map(origin => `"${origin}"`).join(", ") %>
+    ]
     <% } %>
     expose_headers  = ["Last-Updated"]
     max_age_seconds = 3000
   }
 }
+<% } %>
 
 <% if (public) { %>
 resource "aws_s3_bucket_public_access_block" "main" {

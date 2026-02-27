@@ -8,6 +8,7 @@ export default {
       autoCleanup: false,
       rawName: null,
       public: false,
+      corsOrigins: [],
     };
   },
   getTerraformVariables() {
