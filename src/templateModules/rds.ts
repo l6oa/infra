@@ -23,6 +23,7 @@ export default {
       'databaseName',
       'username',
       'password',
+      'snapshotId',
     ];
 
     return pick(this.config, variableNames);

@@ -37,3 +37,8 @@ variable "username" {
 variable "password" {
   type = string
 }
+
+variable "snapshot_id" {
+  type    = string
+  default = null
+}
