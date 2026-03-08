@@ -27,7 +27,9 @@ RUN cp -a /persistence/. . && \
 
 RUN npm pkg set packageManager=<%= yarnRelease %> && \
     yarn config set enableGlobalCache false && \
+<% if (npmAuthToken) { %>
     yarn config set npmAuthToken <%= npmAuthToken %> && \
+<% } %>
     yarn && \
     yarn add ./lib/aws-lambda-ric.tar.gz
 
