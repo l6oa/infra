@@ -21,7 +21,7 @@ resource "aws_alb_target_group" "main" {
     protocol            = "HTTP"
     matcher             = "200,202,302,303,304"
     timeout             = "5"
-    path                = "/"
+    path                = "<%= healthCheckPath %>"
     unhealthy_threshold = "2"
   }
 }

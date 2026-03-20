@@ -9,6 +9,7 @@ export default {
   },
   async getDefaultConfig() {
     return {
+      healthCheckPath: '/',
       additionalCertificateArns: [],
       volumes: [],
       enableExecuteCommand: false,
